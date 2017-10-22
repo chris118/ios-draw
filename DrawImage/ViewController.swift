@@ -13,9 +13,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        drawRound()
+//        drawRound()
         
-        self.imageView.image = drawImageAtImageContext()
+        self.imageView.image = drawImage()
     }
     
     override func didReceiveMemoryWarning() {
@@ -38,6 +38,41 @@ class ViewController: UIViewController {
         
         shapeLayer.path = mainPath2.cgPath
         self.view.layer.addSublayer(shapeLayer)
+    }
+    
+    func drawImage()->UIImage {
+        let size = CGSize(width:3200, height:1500)
+        UIGraphicsBeginImageContext(size)
+        let context = UIGraphicsGetCurrentContext()
+        
+        let img = UIImage(named: "road")!
+        img.draw(in: CGRect(x:0, y:0, width:3200, height: 1500))//注意绘图的位置是相对于画布顶点而言，不是屏幕
+        
+
+        let mainPath1 = UIBezierPath(ovalIn: CGRect(origin: CGPoint(x: 100, y: 100), size: CGSize(width: 100, height: 100)))
+        context?.addPath(mainPath1.cgPath)
+        context?.setFillColor(UIColor.red.cgColor)
+        context?.fillPath()
+        
+        let mainPath2 = UIBezierPath(ovalIn: CGRect(origin: CGPoint(x: 100, y: 200), size: CGSize(width: 100, height: 100)))
+        context?.addPath(mainPath2.cgPath)
+        context?.setFillColor(UIColor.red.cgColor)
+        context?.fillPath()
+        
+        let mainPath3 = UIBezierPath(ovalIn: CGRect(origin: CGPoint(x: 100, y: 300), size: CGSize(width: 100, height: 100)))
+        context?.addPath(mainPath3.cgPath)
+        context?.setFillColor(UIColor.red.cgColor)
+        context?.fillPath()
+        
+        
+        
+        //返回绘制的新图形
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        //不要忘记关闭对应上下文
+        UIGraphicsEndImageContext()
+        
+        return newImage!
     }
     
     func drawImageAtImageContext()->UIImage{
@@ -70,6 +105,9 @@ class ViewController: UIViewController {
         context?.addPath(mainPath2.cgPath)
         context?.setFillColor(UIColor.blue.cgColor)
         context?.fillPath()
+        
+        
+        
         
         
         //返回绘制的新图形
